@@ -20,6 +20,6 @@ To set up the Node JS application, follow these steps:
 
 ```bash
 git clone -b main https://github.com/techcorpian/dineposBackend.git
-cd dineposFrontend
+cd dineposBackend
 npm install
 nodemon server.ts
