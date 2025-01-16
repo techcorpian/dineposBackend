@@ -1,8 +1,8 @@
 import app from './app';
 import mongoose from 'mongoose';
 
-const PORT = process.env.PORT || 5001;
-const MONGO_URI = 'mongodb://localhost:27017/dinepos';
+const PORT: number = Number(process.env.PORT) || 5001;
+const MONGO_URI: string = process.env.MONGO_URL as string;
 
 mongoose.connect(MONGO_URI)
   .then(() => {
@@ -11,6 +11,6 @@ mongoose.connect(MONGO_URI)
       console.log(`Server running on http://localhost:${PORT}`);
     });
   })
-  .catch((error) => {
+  .catch((error: Error) => {
     console.error('Database connection failed:', error);
   });

@@ -1,5 +1,9 @@
 import { Request, Response } from 'express';
 import { Order } from '../models/Order';
+import Razorpay from "razorpay";
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 // Helper function to extract error messages safely
 const getErrorMessage = (error: unknown): string => {
@@ -63,3 +67,26 @@ export const createOrder = async (req: Request, res: Response): Promise<void> =>
       res.status(500).json({ error: getErrorMessage(error) });
     }
   };
+
+const razorpay = new Razorpay({
+  key_id: process.env.RAZORPAY_KEY_ID as string,
+  key_secret: process.env.RAZORPAY_KEY_SECRET as string,
+});
+
+export const createOrderByUPI = async (req: Request, res: Response): Promise<void> => {
+  const { amount, currency }: { amount: number; currency: string } = req.body;
+
+  try {
+    const options = {
+      amount: amount * 100, // Amount in paise
+      currency,
+      receipt: `order_rcpt_${Date.now()}`,
+    };
+
+    // Use the Razorpay instance to create an order
+    const order = await razorpay.orders.create(options);
+    res.json(order);
+  } catch (error: any) {
+    res.status(500).send(error.message);
+  }
+};

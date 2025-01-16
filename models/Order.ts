@@ -14,6 +14,9 @@ const orderSchema = new mongoose.Schema({
   tax: { type: Number, required: true },
   payableAmount: { type: Number, required: true },
   paymentMode: { type: String, required: true },
+    razorpay_order_id : {type: String, required: false},
+    razorpay_payment_id : {type: String, required: false},
+
 },
 {
   timestamps: true, // Automatically adds createdAt and updatedAt fields
